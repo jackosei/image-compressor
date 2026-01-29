@@ -15,15 +15,24 @@ function initTinify() {
 /**
  * Compress an image from a buffer.
  * @param {Buffer} buffer - The image buffer.
+ * @param {string} [format] - Target format (e.g., 'image/png', 'image/webp'). If not provided, maintains original format.
  * @returns {Promise<Buffer>} - The compressed image buffer.
  */
-async function compressImageBuffer(buffer) {
+async function compressImageBuffer(buffer, format) {
   if (!initTinify()) throw new Error("Tinify API key not configured.");
 
   try {
     const source = tinify.fromBuffer(buffer);
-    const result = await source.toBuffer();
-    return result;
+    let result;
+
+    if (format && format !== "original") {
+      result = source.convert({ type: format });
+    } else {
+      result = source;
+    }
+
+    const bufferResult = await result.toBuffer();
+    return bufferResult;
   } catch (err) {
     console.error("Compression error:", err);
     throw err;

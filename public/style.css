@@ -71,6 +71,11 @@ footer {
   font-size: 0.875rem;
 }
 
+footer a {
+  text-decoration: none;
+  color: var(--text-muted);
+}
+
 header {
   margin-bottom: 3rem;
 }
@@ -85,6 +90,34 @@ header h1 {
 
 header p {
   color: var(--text-muted);
+}
+
+.options-area {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.options-area label {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.options-area select {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.options-area select:focus {
+  border-color: var(--primary);
 }
 
 .upload-area {

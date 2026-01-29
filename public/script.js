@@ -1,5 +1,6 @@
 const uploadArea = document.getElementById("uploadArea");
 const fileInput = document.getElementById("fileInput");
+const formatSelect = document.getElementById("formatSelect");
 const statusArea = document.getElementById("statusArea");
 const loading = document.getElementById("loading");
 const result = document.getElementById("result");
@@ -60,6 +61,7 @@ function handleFile(file) {
 async function uploadImage(file) {
   const formData = new FormData();
   formData.append("image", file);
+  formData.append("format", formatSelect.value);
 
   try {
     const response = await fetch("/api/compress", {
