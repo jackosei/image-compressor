@@ -36,9 +36,29 @@ function startLocalMode() {
       }
 
       console.log(`New file detected: ${fileName}`);
-      const destPath = path.join(convertedDir, fileName);
 
-      compressFile(filePath, destPath);
+      const outputFormat = process.env.OUTPUT_FORMAT || "original";
+      let destExt = path.extname(fileName);
+      let targetMime = "original";
+
+      if (outputFormat === "jpeg" || outputFormat === "jpg") {
+        targetMime = "image/jpeg";
+        destExt = ".jpg";
+      } else if (outputFormat === "png") {
+        targetMime = "image/png";
+        destExt = ".png";
+      } else if (outputFormat === "webp") {
+        targetMime = "image/webp";
+        destExt = ".webp";
+      } else if (outputFormat === "avif") {
+        targetMime = "image/avif";
+        destExt = ".avif";
+      }
+
+      const destFileName = path.parse(fileName).name + destExt;
+      const destPath = path.join(convertedDir, destFileName);
+
+      compressFile(filePath, destPath, targetMime);
     })
     .on("error", (error) => console.error(`Watcher error: ${error}`));
 }

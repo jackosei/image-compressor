@@ -43,13 +43,22 @@ async function compressImageBuffer(buffer, format) {
  * Compress an image from a file path and save to destination.
  * @param {string} sourcePath - Path to the source image.
  * @param {string} destPath - Path to save the compressed image.
+ * @param {string} [format] - Target format (e.g., 'image/png').
  */
-async function compressFile(sourcePath, destPath) {
+async function compressFile(sourcePath, destPath, format) {
   if (!initTinify()) throw new Error("Tinify API key not configured.");
 
   try {
     const source = tinify.fromFile(sourcePath);
-    await source.toFile(destPath);
+    let result;
+
+    if (format && format !== "original") {
+      result = source.convert({ type: format });
+    } else {
+      result = source;
+    }
+
+    await result.toFile(destPath);
     console.log(`Compressed: ${sourcePath} -> ${destPath}`);
   } catch (err) {
     console.error(`Error compressing ${sourcePath}:`, err.message);
