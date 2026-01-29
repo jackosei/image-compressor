@@ -18,7 +18,7 @@ function startLocalMode() {
 
   const watcher = chokidar.watch(uploadDir, {
     persistent: true,
-    ignoreInitial: true,
+    ignoreInitial: true, //set to 'false' to convert files in the uploads folder and 'true' to only convert new files added
     depth: 0,
     awaitWriteFinish: {
       stabilityThreshold: 1000,
