@@ -32,6 +32,8 @@ A robust Node.js application for efficient image compression and format conversi
    TINIFY_KEY=your_api_key_here
    # Optional: Set default mode (online/local)
    APP_MODE=online
+   # Optional: Set local mode output format (original/jpeg/png/webp/avif)
+   OUTPUT_FORMAT=original
    ```
 
 ## Usage
@@ -56,6 +58,7 @@ APP_MODE=local npm start
 
 - Place images in the `uploads` directory.
 - Compressed files will be automatically generated in the `converted` directory.
+- Control output format via `OUTPUT_FORMAT` in `.env`.
 
 ## Project Structure
 
