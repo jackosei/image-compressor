@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Compressor</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Image Compressor</h1>
+        <p>Smart resizing & compression powered by Tinify</p>
+      </header>
+
+      <main>
+        <div class="upload-area" id="uploadArea">
+          <div class="icon">📁</div>
+          <h3>Drag & drop your image here</h3>
+          <p>or <span class="browse-btn">browse files</span></p>
+          <input type="file" id="fileInput" accept="image/*" hidden />
+        </div>
+
+        <div class="status-area" id="statusArea" hidden>
+          <div class="loading" id="loading" hidden>
+            <div class="spinner"></div>
+            <p>Compressing...</p>
+          </div>
+
+          <div class="result" id="result" hidden>
+            <p>✅ Compression Complete!</p>
+            <a id="downloadLink" href="#" class="download-btn"
+              >Download Compressed Image</a
+            >
+            <button id="resetBtn" class="reset-btn">Compress Another</button>
+          </div>
+
+          <div class="error" id="error" hidden>
+            <p>❌ <span id="errorMessage">Something went wrong.</span></p>
+            <button id="retryBtn" class="reset-btn">Try Again</button>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        <p>Built with ❤️ using Node.js & Tinify</p>
+      </footer>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
