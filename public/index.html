@@ -12,7 +12,35 @@
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
+    <!-- Beta Notice Banner -->
+    <div class="beta-banner">
+      <div class="beta-content">
+        <i data-lucide="flask-conical" style="width: 18px; height: 18px"></i>
+        <span>
+          <strong>Beta Version</strong> · Free tier limited to 5 compressions.
+          Want unlimited?
+          <a href="https://github.com/jackosei" target="_blank" rel="noopener"
+            >Get the code on GitHub</a
+          >
+          and run it yourself!
+        </span>
+      </div>
+    </div>
+
     <div class="container">
+      <!-- Navigation -->
+      <nav class="nav">
+        <a
+          href="https://github.com/jackosei/image-compressor"
+          target="_blank"
+          rel="noopener"
+          class="github-btn"
+        >
+          <i data-lucide="github"></i>
+          <span>View on GitHub</span>
+        </a>
+      </nav>
+
       <header>
         <h1>Image Compressor</h1>
         <p>Smart resizing & compression powered by Tinify</p>
@@ -279,6 +307,153 @@
           <p>
             <strong>Website:</strong>
             <a href="https://jackosei.com" target="_blank">jackosei.com</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Limit Reached Modal -->
+    <div class="modal" id="limitModal" hidden>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Free Limit Reached</h2>
+          <button class="modal-close" id="limitClose">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center; margin-bottom: 2rem">
+            <i
+              data-lucide="zap-off"
+              style="
+                width: 64px;
+                height: 64px;
+                color: var(--primary);
+                margin-bottom: 1rem;
+              "
+            ></i>
+            <h3 style="margin-bottom: 0.5rem">
+              You've Used Your 5 Free Compressions
+            </h3>
+            <p style="color: var(--text-muted)">
+              To protect my limited API credits, the free tier is capped at 5
+              compressions.
+            </p>
+          </div>
+
+          <div
+            style="
+              background: rgba(59, 130, 246, 0.1);
+              border: 1px solid rgba(59, 130, 246, 0.3);
+              border-radius: 0.75rem;
+              padding: 1.5rem;
+              margin-bottom: 1.5rem;
+            "
+          >
+            <h4
+              style="
+                margin-bottom: 1rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+              "
+            >
+              <i
+                data-lucide="rocket"
+                style="width: 20px; height: 20px; color: var(--primary)"
+              ></i>
+              Want Unlimited Compressions?
+            </h4>
+            <p style="margin-bottom: 1rem">
+              Run this app on your own system with your own Tinify API key!
+            </p>
+            <ul style="margin-left: 1.5rem; margin-bottom: 1rem">
+              <li>
+                ✨ <strong>500 free compressions/month</strong> from TinyPNG
+              </li>
+              <li>
+                🚀 <strong>Unlimited batch processing</strong> - no restrictions
+              </li>
+              <li>
+                💾 <strong>Process locally</strong> - your images never leave
+                your computer
+              </li>
+              <li>🔧 <strong>Open source</strong> - customize as you want</li>
+            </ul>
+          </div>
+
+          <h4 style="margin-bottom: 1rem">Quick Setup (5 minutes):</h4>
+          <ol style="margin-left: 1.5rem; line-height: 1.8">
+            <li>
+              <strong>Get the code:</strong> Visit
+              <a
+                href="https://github.com/jackosei/image-compressor"
+                target="_blank"
+                rel="noopener"
+                style="color: var(--primary)"
+              >
+                GitHub Repository
+              </a>
+            </li>
+            <li>
+              <strong>Get free API key:</strong> Sign up at
+              <a
+                href="https://tinypng.com/developers"
+                target="_blank"
+                rel="noopener"
+                style="color: var(--primary)"
+              >
+                TinyPNG Developers
+              </a>
+              (500 compressions/month free)
+            </li>
+            <li>
+              <strong>Clone & install:</strong> Follow the README instructions
+            </li>
+            <li>
+              <strong>Add your API key:</strong> Create <code>.env</code> file
+              with your key
+            </li>
+            <li>
+              <strong>Run locally:</strong> <code>npm start</code> and enjoy
+              unlimited use!
+            </li>
+          </ol>
+
+          <div style="margin-top: 2rem; text-align: center">
+            <a
+              href="https://github.com/jackosei/image-compressor"
+              target="_blank"
+              rel="noopener"
+              class="download-btn"
+              style="
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                text-decoration: none;
+              "
+            >
+              <i data-lucide="github" style="width: 20px; height: 20px"></i>
+              View Repository on GitHub
+            </a>
+          </div>
+
+          <p
+            style="
+              margin-top: 1.5rem;
+              text-align: center;
+              font-size: 0.875rem;
+              color: var(--text-muted);
+            "
+          >
+            Need help? Check the
+            <a
+              href="https://github.com/jackosei/image-compressor#readme"
+              target="_blank"
+              rel="noopener"
+              style="color: var(--primary)"
+            >
+              README
+            </a>
+            for detailed setup instructions.
           </p>
         </div>
       </div>

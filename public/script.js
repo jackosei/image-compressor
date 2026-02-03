@@ -25,6 +25,16 @@ const termsLink = document.getElementById("termsLink");
 const privacyClose = document.getElementById("privacyClose");
 const termsClose = document.getElementById("termsClose");
 
+// Limit modal elements
+const limitModal = document.getElementById("limitModal");
+const limitClose = document.getElementById("limitClose");
+
+// Compression limit tracking
+const MAX_FREE_COMPRESSIONS = 5;
+let compressionsUsed = parseInt(
+  localStorage.getItem("compressions_used") || "0",
+);
+
 // Store compressed files for batch download
 let compressedFiles = [];
 
@@ -94,6 +104,19 @@ termsModal.addEventListener("click", (e) => {
   }
 });
 
+// Limit modal event listeners
+limitClose.addEventListener("click", () => {
+  limitModal.hidden = true;
+  document.body.style.overflow = "auto";
+});
+
+limitModal.addEventListener("click", (e) => {
+  if (e.target === limitModal) {
+    limitModal.hidden = true;
+    document.body.style.overflow = "auto";
+  }
+});
+
 // Close modals with Escape key
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
@@ -103,6 +126,10 @@ document.addEventListener("keydown", (e) => {
     }
     if (!termsModal.hidden) {
       termsModal.hidden = true;
+      document.body.style.overflow = "auto";
+    }
+    if (!limitModal.hidden) {
+      limitModal.hidden = true;
       document.body.style.overflow = "auto";
     }
   }
@@ -121,12 +148,34 @@ function resetUI() {
   compressedFiles = [];
 }
 
+// Helper functions for compression limit
+function checkCompressionLimit() {
+  return compressionsUsed < MAX_FREE_COMPRESSIONS;
+}
+
+function incrementCompressionCount() {
+  compressionsUsed++;
+  localStorage.setItem("compressions_used", compressionsUsed.toString());
+}
+
+function showLimitModal() {
+  limitModal.hidden = false;
+  document.body.style.overflow = "hidden";
+  lucide.createIcons();
+}
+
 function handleFiles(files) {
   // Filter only image files
   const imageFiles = files.filter((file) => file.type.startsWith("image/"));
 
   if (imageFiles.length === 0) {
     alert("Please upload at least one image file.");
+    return;
+  }
+
+  // Check compression limit
+  if (!checkCompressionLimit()) {
+    showLimitModal();
     return;
   }
 
@@ -163,6 +212,9 @@ async function uploadImage(file) {
 
     const blob = await response.blob();
     const url = URL.createObjectURL(blob);
+
+    // Increment compression count on success
+    incrementCompressionCount();
 
     loading.hidden = true;
     result.hidden = false;
@@ -257,6 +309,9 @@ async function compressFileWithProgress(file, card, index) {
       fileName: fileName,
       url: url,
     });
+
+    // Increment compression count on success
+    incrementCompressionCount();
 
     // Update status to complete
     progressFill.style.width = "100%";

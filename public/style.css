@@ -76,6 +76,78 @@ footer a {
   color: var(--text-muted);
 }
 
+/* Beta Banner */
+.beta-banner {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.2),
+    rgba(147, 51, 234, 0.2)
+  );
+  border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+  padding: 0.75rem 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.beta-content {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-main);
+  justify-content: center;
+  text-align: center;
+}
+
+.beta-content svg {
+  flex-shrink: 0;
+  color: var(--primary);
+}
+
+.beta-content a {
+  color: var(--primary);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.beta-content a:hover {
+  color: var(--primary-hover);
+}
+
+/* Navigation */
+.nav {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4rem;
+}
+
+.github-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.github-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.github-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
 header {
   margin-bottom: 3rem;
 }
