@@ -29,6 +29,11 @@ const termsClose = document.getElementById("termsClose");
 const limitModal = document.getElementById("limitModal");
 const limitClose = document.getElementById("limitClose");
 
+// Format tooltip elements
+const formatInfoBtn = document.getElementById("formatInfoBtn");
+const formatTooltip = document.getElementById("formatTooltip");
+const tooltipClose = document.getElementById("tooltipClose");
+
 // Compression limit tracking
 const MAX_FREE_COMPRESSIONS = 5;
 let compressionsUsed = parseInt(
@@ -117,6 +122,31 @@ limitModal.addEventListener("click", (e) => {
   }
 });
 
+// Format tooltip event listeners
+formatInfoBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  formatTooltip.hidden = !formatTooltip.hidden;
+  if (!formatTooltip.hidden) {
+    lucide.createIcons();
+  }
+});
+
+tooltipClose.addEventListener("click", () => {
+  formatTooltip.hidden = true;
+});
+
+// Close tooltip when clicking outside
+document.addEventListener("click", (e) => {
+  if (
+    !formatTooltip.hidden &&
+    !formatTooltip.contains(e.target) &&
+    e.target !== formatInfoBtn &&
+    !formatInfoBtn.contains(e.target)
+  ) {
+    formatTooltip.hidden = true;
+  }
+});
+
 // Close modals with Escape key
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
@@ -131,6 +161,9 @@ document.addEventListener("keydown", (e) => {
     if (!limitModal.hidden) {
       limitModal.hidden = true;
       document.body.style.overflow = "auto";
+    }
+    if (!formatTooltip.hidden) {
+      formatTooltip.hidden = true;
     }
   }
 });

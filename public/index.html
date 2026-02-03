@@ -48,7 +48,17 @@
 
       <main>
         <div class="options-area">
-          <label for="formatSelect">Output Format:</label>
+          <div class="format-label-wrapper">
+            <label for="formatSelect">Output Format:</label>
+            <button
+              type="button"
+              class="info-icon"
+              id="formatInfoBtn"
+              aria-label="Format information"
+            >
+              <i data-lucide="info"></i>
+            </button>
+          </div>
           <select id="formatSelect">
             <option value="original">Original</option>
             <option value="image/jpeg">JPEG</option>
@@ -56,6 +66,76 @@
             <option value="image/webp">WebP</option>
             <option value="image/avif">AVIF</option>
           </select>
+
+          <!-- Format Info Tooltip -->
+          <div class="format-tooltip" id="formatTooltip" hidden>
+            <div class="tooltip-header">
+              <h4>Choose Your Format</h4>
+              <button
+                type="button"
+                class="tooltip-close"
+                id="tooltipClose"
+                aria-label="Close"
+              >
+                <i data-lucide="x"></i>
+              </button>
+            </div>
+            <div class="tooltip-content">
+              <div class="format-option">
+                <div class="format-name">
+                  <i
+                    data-lucide="file-image"
+                    style="width: 16px; height: 16px"
+                  ></i>
+                  <strong>Original</strong>
+                </div>
+                <p>
+                  Keeps the original format while compressing. Best for general
+                  use.
+                </p>
+              </div>
+
+              <div class="format-option">
+                <div class="format-name">
+                  <i data-lucide="image" style="width: 16px; height: 16px"></i>
+                  <strong>JPEG</strong>
+                </div>
+                <p>Best for photos. Small file size, wide compatibility.</p>
+              </div>
+
+              <div class="format-option">
+                <div class="format-name">
+                  <i data-lucide="image" style="width: 16px; height: 16px"></i>
+                  <strong>PNG</strong>
+                </div>
+                <p>
+                  Best for graphics, logos, transparency. Larger files but
+                  lossless quality.
+                </p>
+              </div>
+
+              <div class="format-option">
+                <div class="format-name">
+                  <i data-lucide="zap" style="width: 16px; height: 16px"></i>
+                  <strong>WebP</strong>
+                </div>
+                <p>Modern format. Smaller than JPEG/PNG. Great for web use.</p>
+              </div>
+
+              <div class="format-option">
+                <div class="format-name">
+                  <i
+                    data-lucide="sparkles"
+                    style="width: 16px; height: 16px"
+                  ></i>
+                  <strong>AVIF</strong>
+                </div>
+                <p>
+                  Newest format. Best compression but limited browser support.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="upload-area" id="uploadArea">
