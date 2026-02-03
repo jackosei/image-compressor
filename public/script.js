@@ -286,6 +286,7 @@ async function downloadAllAsZip() {
 
   try {
     downloadAllBtn.disabled = true;
+    batchResetBtn.disabled = true;
     downloadAllBtn.textContent = "Creating ZIP...";
 
     // Create FormData with all original files
@@ -320,12 +321,14 @@ async function downloadAllAsZip() {
     URL.revokeObjectURL(url);
 
     downloadAllBtn.disabled = false;
+    batchResetBtn.disabled = false;
     downloadAllBtn.innerHTML =
       '<i data-lucide="package" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"></i>Download All as ZIP';
     lucide.createIcons();
   } catch (err) {
     alert(`Error creating ZIP: ${err.message}`);
     downloadAllBtn.disabled = false;
+    batchResetBtn.disabled = false;
     downloadAllBtn.innerHTML =
       '<i data-lucide="package" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"></i>Download All as ZIP';
     lucide.createIcons();
