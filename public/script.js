@@ -10,6 +10,16 @@ const downloadLink = document.getElementById("downloadLink");
 const resetBtn = document.getElementById("resetBtn");
 const retryBtn = document.getElementById("retryBtn");
 
+// Batch processing elements
+const batchArea = document.getElementById("batchArea");
+const batchProgress = document.getElementById("batchProgress");
+const batchActions = document.getElementById("batchActions");
+const downloadAllBtn = document.getElementById("downloadAllBtn");
+const batchResetBtn = document.getElementById("batchResetBtn");
+
+// Store compressed files for batch download
+let compressedFiles = [];
+
 // Drag & Drop events
 uploadArea.addEventListener("click", () => fileInput.click());
 
@@ -26,38 +36,55 @@ uploadArea.addEventListener("drop", (e) => {
   e.preventDefault();
   uploadArea.classList.remove("dragover");
   const files = e.dataTransfer.files;
-  if (files.length) handleFile(files[0]);
+  if (files.length) handleFiles(Array.from(files));
 });
 
 fileInput.addEventListener("change", (e) => {
-  if (e.target.files.length) handleFile(e.target.files[0]);
+  if (e.target.files.length) handleFiles(Array.from(e.target.files));
 });
 
 resetBtn.addEventListener("click", resetUI);
 retryBtn.addEventListener("click", resetUI);
+batchResetBtn.addEventListener("click", resetUI);
+downloadAllBtn.addEventListener("click", downloadAllAsZip);
 
 function resetUI() {
   statusArea.hidden = true;
+  batchArea.hidden = true;
   loading.hidden = true;
   result.hidden = true;
   error.hidden = true;
+  batchActions.hidden = true;
   uploadArea.hidden = false;
   fileInput.value = "";
+  batchProgress.innerHTML = "";
+  compressedFiles = [];
 }
 
-function handleFile(file) {
-  if (!file.type.startsWith("image/")) {
-    alert("Please upload an image file.");
+function handleFiles(files) {
+  // Filter only image files
+  const imageFiles = files.filter((file) => file.type.startsWith("image/"));
+
+  if (imageFiles.length === 0) {
+    alert("Please upload at least one image file.");
     return;
   }
 
   uploadArea.hidden = true;
-  statusArea.hidden = false;
-  loading.hidden = false;
 
-  uploadImage(file);
+  // Single file: use original flow
+  if (imageFiles.length === 1) {
+    statusArea.hidden = false;
+    loading.hidden = false;
+    uploadImage(imageFiles[0]);
+  } else {
+    // Multiple files: use batch processing
+    batchArea.hidden = false;
+    processBatch(imageFiles);
+  }
 }
 
+// Single file upload (original functionality)
 async function uploadImage(file) {
   const formData = new FormData();
   formData.append("image", file);
@@ -88,4 +115,160 @@ async function uploadImage(file) {
     errorMessage.textContent = err.message;
     console.error(err);
   }
+}
+
+// Batch processing
+async function processBatch(files) {
+  compressedFiles = [];
+  batchProgress.innerHTML = "";
+
+  // Create progress cards for each file
+  for (const file of files) {
+    const card = createProgressCard(file);
+    batchProgress.appendChild(card);
+  }
+
+  // Process files sequentially to show progress
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const card = batchProgress.children[i];
+    await compressFileWithProgress(file, card, i);
+  }
+
+  // All files processed - show download all button
+  batchActions.hidden = false;
+}
+
+function createProgressCard(file) {
+  const card = document.createElement("div");
+  card.className = "file-progress-card";
+  card.innerHTML = `
+    <div class="file-info">
+      <span class="file-name">${file.name}</span>
+      <span class="file-size">${formatFileSize(file.size)}</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+    </div>
+    <div class="file-status">Waiting...</div>
+  `;
+  return card;
+}
+
+async function compressFileWithProgress(file, card, index) {
+  const statusElement = card.querySelector(".file-status");
+  const progressFill = card.querySelector(".progress-fill");
+
+  try {
+    // Update status
+    statusElement.textContent = "Compressing...";
+    card.classList.add("processing");
+    progressFill.style.width = "50%";
+
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("format", formatSelect.value);
+
+    const response = await fetch("/api/compress", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Compression failed");
+    }
+
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+
+    // Determine file extension
+    let ext = file.name.split(".").pop();
+    const format = formatSelect.value;
+    if (format === "image/png") ext = "png";
+    else if (format === "image/jpeg") ext = "jpg";
+    else if (format === "image/webp") ext = "webp";
+    else if (format === "image/avif") ext = "avif";
+
+    const fileName = `compressed_${file.name.split(".")[0]}.${ext}`;
+
+    // Store compressed file
+    compressedFiles.push({
+      blob: blob,
+      fileName: fileName,
+      url: url,
+    });
+
+    // Update status to complete
+    progressFill.style.width = "100%";
+    statusElement.innerHTML = `✅ Complete <a href="${url}" download="${fileName}" class="download-link">Download</a>`;
+    card.classList.remove("processing");
+    card.classList.add("completed");
+  } catch (err) {
+    // Update status to error
+    progressFill.style.width = "100%";
+    progressFill.classList.add("error");
+    statusElement.textContent = `❌ ${err.message}`;
+    card.classList.remove("processing");
+    card.classList.add("error");
+    console.error(`Error compressing ${file.name}:`, err);
+  }
+}
+
+async function downloadAllAsZip() {
+  if (compressedFiles.length === 0) {
+    alert("No compressed files to download.");
+    return;
+  }
+
+  try {
+    downloadAllBtn.disabled = true;
+    downloadAllBtn.textContent = "Creating ZIP...";
+
+    // Create FormData with all original files
+    const formData = new FormData();
+    formData.append("format", formatSelect.value);
+
+    // Get original files from file input
+    const files = Array.from(fileInput.files);
+    files.forEach((file) => {
+      formData.append("images", file);
+    });
+
+    const response = await fetch("/api/compress-batch", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to create ZIP file");
+    }
+
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+
+    // Trigger download
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "compressed-images.zip";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    downloadAllBtn.disabled = false;
+    downloadAllBtn.textContent = "📦 Download All as ZIP";
+  } catch (err) {
+    alert(`Error creating ZIP: ${err.message}`);
+    downloadAllBtn.disabled = false;
+    downloadAllBtn.textContent = "📦 Download All as ZIP";
+    console.error(err);
+  }
+}
+
+function formatFileSize(bytes) {
+  if (bytes === 0) return "0 Bytes";
+  const k = 1024;
+  const sizes = ["Bytes", "KB", "MB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
 }

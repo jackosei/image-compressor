@@ -33,7 +33,7 @@
           <div class="icon">📁</div>
           <h3>Drag & drop your image here</h3>
           <p>or <span class="browse-btn">browse files</span></p>
-          <input type="file" id="fileInput" accept="image/*" hidden />
+          <input type="file" id="fileInput" accept="image/*" multiple hidden />
         </div>
 
         <div class="status-area" id="statusArea" hidden>
@@ -53,6 +53,19 @@
           <div class="error" id="error" hidden>
             <p>❌ <span id="errorMessage">Something went wrong.</span></p>
             <button id="retryBtn" class="reset-btn">Try Again</button>
+          </div>
+        </div>
+
+        <!-- Batch processing area -->
+        <div class="batch-area" id="batchArea" hidden>
+          <h3>Processing Files</h3>
+          <div class="batch-progress" id="batchProgress"></div>
+
+          <div class="batch-actions" id="batchActions" hidden>
+            <button id="downloadAllBtn" class="download-all-btn">
+              📦 Download All as ZIP
+            </button>
+            <button id="batchResetBtn" class="reset-btn">Compress More</button>
           </div>
         </div>
       </main>
