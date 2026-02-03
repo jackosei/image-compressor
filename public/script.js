@@ -17,6 +17,14 @@ const batchActions = document.getElementById("batchActions");
 const downloadAllBtn = document.getElementById("downloadAllBtn");
 const batchResetBtn = document.getElementById("batchResetBtn");
 
+// Modal elements
+const privacyModal = document.getElementById("privacyModal");
+const termsModal = document.getElementById("termsModal");
+const privacyLink = document.getElementById("privacyLink");
+const termsLink = document.getElementById("termsLink");
+const privacyClose = document.getElementById("privacyClose");
+const termsClose = document.getElementById("termsClose");
+
 // Store compressed files for batch download
 let compressedFiles = [];
 
@@ -47,6 +55,58 @@ resetBtn.addEventListener("click", resetUI);
 retryBtn.addEventListener("click", resetUI);
 batchResetBtn.addEventListener("click", resetUI);
 downloadAllBtn.addEventListener("click", downloadAllAsZip);
+
+// Modal event listeners
+privacyLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  privacyModal.hidden = false;
+  document.body.style.overflow = "hidden";
+});
+
+termsLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  termsModal.hidden = false;
+  document.body.style.overflow = "hidden";
+});
+
+privacyClose.addEventListener("click", () => {
+  privacyModal.hidden = true;
+  document.body.style.overflow = "auto";
+});
+
+termsClose.addEventListener("click", () => {
+  termsModal.hidden = true;
+  document.body.style.overflow = "auto";
+});
+
+// Close modals when clicking outside
+privacyModal.addEventListener("click", (e) => {
+  if (e.target === privacyModal) {
+    privacyModal.hidden = true;
+    document.body.style.overflow = "auto";
+  }
+});
+
+termsModal.addEventListener("click", (e) => {
+  if (e.target === termsModal) {
+    termsModal.hidden = true;
+    document.body.style.overflow = "auto";
+  }
+});
+
+// Close modals with Escape key
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    if (!privacyModal.hidden) {
+      privacyModal.hidden = true;
+      document.body.style.overflow = "auto";
+    }
+    if (!termsModal.hidden) {
+      termsModal.hidden = true;
+      document.body.style.overflow = "auto";
+    }
+  }
+});
 
 function resetUI() {
   statusArea.hidden = true;
