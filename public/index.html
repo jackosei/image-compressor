@@ -9,6 +9,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
     <div class="container">
@@ -30,7 +31,7 @@
         </div>
 
         <div class="upload-area" id="uploadArea">
-          <div class="icon">📁</div>
+          <div class="icon"><i data-lucide="folder-open"></i></div>
           <h3>Drag & drop your image here</h3>
           <p>or <span class="browse-btn">browse files</span></p>
           <input type="file" id="fileInput" accept="image/*" multiple hidden />
@@ -43,7 +44,17 @@
           </div>
 
           <div class="result" id="result" hidden>
-            <p>✅ Compression Complete!</p>
+            <p>
+              <i
+                data-lucide="check-circle"
+                style="
+                  display: inline-block;
+                  vertical-align: middle;
+                  margin-right: 0.25rem;
+                "
+              ></i>
+              Compression Complete!
+            </p>
             <a id="downloadLink" href="#" class="download-btn"
               >Download Compressed Image</a
             >
@@ -51,7 +62,17 @@
           </div>
 
           <div class="error" id="error" hidden>
-            <p>❌ <span id="errorMessage">Something went wrong.</span></p>
+            <p>
+              <i
+                data-lucide="x-circle"
+                style="
+                  display: inline-block;
+                  vertical-align: middle;
+                  margin-right: 0.25rem;
+                "
+              ></i>
+              <span id="errorMessage">Something went wrong.</span>
+            </p>
             <button id="retryBtn" class="reset-btn">Try Again</button>
           </div>
         </div>
@@ -63,7 +84,15 @@
 
           <div class="batch-actions" id="batchActions" hidden>
             <button id="downloadAllBtn" class="download-all-btn">
-              📦 Download All as ZIP
+              <i
+                data-lucide="package"
+                style="
+                  display: inline-block;
+                  vertical-align: middle;
+                  margin-right: 0.5rem;
+                "
+              ></i>
+              Download All as ZIP
             </button>
             <button id="batchResetBtn" class="reset-btn">Compress More</button>
           </div>
@@ -72,8 +101,18 @@
 
       <footer>
         <p>
-          Built with ❤️ by <a href="https://jackosei.com">Jack Osei</a>, using
-          Node.js & Tinify API
+          Built with
+          <i
+            data-lucide="heart"
+            style="
+              display: inline-block;
+              vertical-align: middle;
+              color: #ef4444;
+              fill: #ef4444;
+            "
+          ></i>
+          by <a href="https://jackosei.com">Jack Osei</a>, using Node.js &
+          Tinify API
         </p>
         <p class="legal-links">
           <a href="#" id="privacyLink">Privacy Policy</a> ·
@@ -479,6 +518,12 @@
       </div>
     </div>
 
+    <script>
+      // Initialize Lucide icons
+      document.addEventListener("DOMContentLoaded", () => {
+        lucide.createIcons();
+      });
+    </script>
     <script src="script.js"></script>
   </body>
 </html>

@@ -260,17 +260,21 @@ async function compressFileWithProgress(file, card, index) {
 
     // Update status to complete
     progressFill.style.width = "100%";
-    statusElement.innerHTML = `✅ Complete <a href="${url}" download="${fileName}" class="download-link">Download</a>`;
+    statusElement.innerHTML = `<i data-lucide="check-circle" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem; width: 16px; height: 16px; color: #22c55e;"></i> Complete <a href="${url}" download="${fileName}" class="download-link">Download</a>`;
     card.classList.remove("processing");
     card.classList.add("completed");
+    // Re-initialize icons for the newly added element
+    lucide.createIcons();
   } catch (err) {
     // Update status to error
     progressFill.style.width = "100%";
     progressFill.classList.add("error");
-    statusElement.textContent = `❌ ${err.message}`;
+    statusElement.innerHTML = `<i data-lucide="x-circle" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem; width: 16px; height: 16px; color: #ef4444;"></i> ${err.message}`;
     card.classList.remove("processing");
     card.classList.add("error");
     console.error(`Error compressing ${file.name}:`, err);
+    // Re-initialize icons for the newly added element
+    lucide.createIcons();
   }
 }
 
@@ -316,11 +320,15 @@ async function downloadAllAsZip() {
     URL.revokeObjectURL(url);
 
     downloadAllBtn.disabled = false;
-    downloadAllBtn.textContent = "📦 Download All as ZIP";
+    downloadAllBtn.innerHTML =
+      '<i data-lucide="package" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"></i>Download All as ZIP';
+    lucide.createIcons();
   } catch (err) {
     alert(`Error creating ZIP: ${err.message}`);
     downloadAllBtn.disabled = false;
-    downloadAllBtn.textContent = "📦 Download All as ZIP";
+    downloadAllBtn.innerHTML =
+      '<i data-lucide="package" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"></i>Download All as ZIP';
+    lucide.createIcons();
     console.error(err);
   }
 }
