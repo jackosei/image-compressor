@@ -103,18 +103,85 @@ APP_MODE=local npm start
 - Compressed files automatically appear in `converted/`
 - Set output format via `OUTPUT_FORMAT` in `.env`
 
-## Production Deployment
+## Deployment
 
-### Important: Free Tier Limitations
+This app can be easily deployed to run locally or on platforms like **Render** or **Railway** with minimal configuration.
 
-The hosted version at [your-domain.com] uses my personal Tinify API key and is limited to **5 compressions per user** to preserve API credits.
-
-**Want unlimited compressions?**
+### Option 1: Run Locally
 
 - Clone this repository
 - Get your own free API key (500 compressions/month)
-- Run locally or deploy to your own server
-- Enjoy unlimited batch processing!
+- Run locally
+
+### Option 2: Deploy to Render (Recommended)
+
+Render offers a generous free tier perfect for Node.js applications.
+
+1. **Push to GitHub**
+
+   ```bash
+   git add .
+   git commit -m "Prepare for deployment"
+   git push origin main
+   ```
+
+2. **Create Render Account**
+   - Go to [https://render.com](https://render.com)
+   - Sign up with GitHub
+
+3. **Create New Web Service**
+   - Click "New +" → "Web Service"
+   - Connect your GitHub repository
+   - Render will auto-detect the `render.yaml` configuration
+
+4. **Configure Environment Variables**
+   - In the Render dashboard, go to "Environment"
+   - Add: `TINIFY_KEY` = `your_tinify_api_key`
+   - `APP_MODE` is already set to `online` in render.yaml
+
+5. **Deploy**
+   - Click "Create Web Service"
+   - Wait for deployment (2-3 minutes)
+   - Your app will be live at `https://your-app-name.onrender.com`
+
+### Option 3: Deploy to Railway
+
+Railway provides simple deployment with automatic HTTPS.
+
+1. **Push to GitHub** (if not already done)
+
+2. **Create Railway Account**
+   - Go to [https://railway.app](https://railway.app)
+   - Sign up with GitHub
+
+3. **Deploy from GitHub**
+   - Click "New Project" → "Deploy from GitHub repo"
+   - Select your repository
+   - Railway auto-detects Node.js and configures build
+
+4. **Add Environment Variables**
+   - Go to "Variables" tab
+   - Add: `TINIFY_KEY` = `your_tinify_api_key`
+   - Add: `APP_MODE` = `online`
+   - Add: `NODE_ENV` = `production`
+
+5. **Generate Domain**
+   - Go to "Settings" → "Networking"
+   - Click "Generate Domain"
+   - Your app is live!
+
+### Post-Deployment
+
+After deployment, test your app:
+
+- ✅ Upload a single image
+- ✅ Test batch processing (multiple images)
+- ✅ Verify format conversion works
+- ✅ Test ZIP download
+
+### Free Tier Limitations
+
+If you're hosting publicly with your personal API key, consider adding usage limits (as implemented in the app UI) to preserve your 500/month free Tinify credits.
 
 ## Project Structure
 
