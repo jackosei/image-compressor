@@ -38,20 +38,25 @@ A robust Node.js application for efficient image compression and format conversi
 
 ### Installation
 
-1. **Clone the repository**:
+1. **Star & Fork the repository**:
+   - Visit [github.com/jackosei/image-compressor](https://github.com/jackosei/image-compressor)
+   - Click ⭐ **Star** to show your support
+   - Click **Fork** to create your own copy
+
+2. **Clone your fork**:
 
    ```bash
-   git clone https://github.com/jackosei/image-compressor.git
+   git clone https://github.com/YOUR-USERNAME/image-compressor.git
    cd image-compressor
    ```
 
-2. **Install dependencies**:
+3. **Install dependencies**:
 
    ```bash
    npm install
    ```
 
-3. **Configure Environment**:
+4. **Configure Environment**:
    Create a `.env` file in the root directory with your Tinify API key:
 
    ```env
@@ -64,13 +69,13 @@ A robust Node.js application for efficient image compression and format conversi
    PORT=3000
    ```
 
-4. **Start the application**:
+5. **Start the application**:
 
    ```bash
    npm start
    ```
 
-5. **Access the web interface**:
+6. **Access the web interface**:
    Navigate to `http://localhost:3000`
 
 ## Usage
@@ -109,9 +114,7 @@ This app can be easily deployed to run locally or on platforms like **Render** o
 
 ### Option 1: Run Locally
 
-- Clone this repository
-- Get your own free API key (500 compressions/month)
-- Run locally
+Follow the [Installation](#installation) instructions above to run the app on your local machine with your own API key.
 
 ### Option 2: Deploy to Render (Recommended)
 
